@@ -1,5 +1,5 @@
 Simple Energy Coding Challenge - Junior Big Data Engineer
-_________________________________________________________
+---------------------------------------------------------
 
 
 ###Part 1: Functional Thinking
