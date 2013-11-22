@@ -19,7 +19,7 @@ sealed trait Maybe[+A] {
       def toRight[X](left: => X): Either[X, A] = cata(Right(_), Left(left))
       def toList: List[A] = cata(a => a::Nil, Nil)
       def iterator: Iterator[A] = cata(a => Iterator(a), Iterator())
-      def equalTo[AA >: A](other: Maybe[AA])(implicit aeq: (AA, AA) => Boolean): Boolean = cata(aa => aeq(aa, other.get), other.isEmpty)
+      def equalTo[AA >: A](other: Maybe[AA])(implicit aeq: (AA, AA) => Boolean): Boolean = cata(aa => (other.isDefined && aa==other.get), other.isEmpty)
     }
      
     // Companion object which provides constructors for the only two members of the
