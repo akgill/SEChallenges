@@ -58,7 +58,7 @@
       }
 
       implicit def ReaderMonad[I]: Monad[({ type λ[α] = I => α })#λ] = new Monad[({ type λ[α] = I => α })#λ] {
-        def point[A](a: A): I => A = typeIthing => a 
+        def point[A](a: A): I => A = lambda => a 
         def bind[A, B](f: A => (I => B)): (I => A) => (I => B) = lambda => f //BROKEN
       }
     }
