@@ -41,24 +41,24 @@
     trait Monad[F[_]] extends Functor[F] {
       def point[A](a: A): F[A]
       def bind[A, B](f: A => F[B]): F[A] => F[B]
-      def fmap[A, B](f: A => B): F[A] => F[B] = fmap(f)
+      def fmap[A, B](f: A => B): F[A] => F[B] = fmap(f) 
     }
 
     object monads {
       type Id[X] = X
 
       implicit val IdMonad: Monad[Id] = new Monad[Id] {
-        def point[A](a: A): Id[A] = this.point(a)
-        def bind[A, B](f: A => Id[B]): Id[A] => Id[B] = id => f(id)
+        def point[A](a: A): Id[A] = a 
+        def bind[A, B](f: A => Id[B]): Id[A] => Id[B] = (id => f(id)) 
       }
 
       implicit val MaybeMonad: Monad[Maybe] = new Monad[Maybe] {
-        def point[A](a: A): Maybe[A] = this.point(a) 
-        def bind[A, B](f: A => Maybe[B]): Maybe[A] => Maybe[B] = maybe => maybe.flatMap(f)
+        def point[A](a: A): Maybe[A] = Maybe.some(a) 
+        def bind[A, B](f: A => Maybe[B]): Maybe[A] => Maybe[B] = maybe => maybe.flatMap(f) 
       }
 
       implicit def ReaderMonad[I]: Monad[({ type λ[α] = I => α })#λ] = new Monad[({ type λ[α] = I => α })#λ] {
-        def point[A](a: A): I => A = this.point(a)
-        def bind[A, B](f: A => (I => B)): (I => A) => (I => B) = this.bind(f) 
+        def point[A](a: A): I => A = typeIthing => a 
+        def bind[A, B](f: A => (I => B)): (I => A) => (I => B) = lambda => f //BROKEN
       }
     }
